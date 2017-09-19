@@ -145,19 +145,21 @@ CONTAINS
     CALL FIND_MINORITY_COORDINATES(coords, minority)
         
     ! Build vector of possible translations
-    ALLOCATE( translations(size(minority)) )
+    ALLOCATE( translations(size(minority)*size(pg)) )
     ntrans = 0
     DO i=1,size(minority)
-       point = minority(i) % tau - minority(1) % tau
-       CALL FLIPINCELL(point)
-       DO j=1,ntrans
-          IF ( (.NORM. (point-translations(j))) < ZERO_TOLERANCE) GOTO 700
-       END DO
-       ntrans = ntrans+1
+       DO k=1,size(pg)
+          point = pg(k) * (minority(i) % tau) - (minority(1) % tau)
+          CALL FLIPINCELL(point)
+          DO j=1,ntrans
+             IF ( (.NORM. (point-translations(j))) < ZERO_TOLERANCE) GOTO 700
+          END DO
+          ntrans = ntrans+1
        
-       !translations(ntrans) = cell * point
-       translations(ntrans) = point
-700    CONTINUE
+          !translations(ntrans) = cell * point
+          translations(ntrans) = point
+700       CONTINUE
+      END DO
     END DO
 
     WRITE(IO_DEBUG,*) " Translations:"
