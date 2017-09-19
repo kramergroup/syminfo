@@ -6,7 +6,7 @@ MODULE SYMMETRY
   IMPLICIT NONE
 
   integer, parameter :: MAX_NUM_PG = 200
-  double precision :: ZERO_TOLERANCE = 1E-5
+  double precision :: ZERO_TOLERANCE = 1E-4
 
 CONTAINS 
 
@@ -188,6 +188,7 @@ CONTAINS
           nops = nops + 1
           storage(nops)%pointgroup = pg(i)
           storage(nops)%translation = translations(j)
+          WRITE(IO_DEBUG,"(A,A,2(I3),A)") "SPACEGROUP OPERATION (PG,TRANS):", "(",i,j,")" 
 800       CONTINUE ! next translation
        END DO
     END DO
