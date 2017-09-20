@@ -78,5 +78,7 @@ starts like:
 
 The first line prints the number of space group operations. Followed by a block of
 symmetry operations **W**. Each symetry operation
+
 ![equation](http:://latex.codecogs.com/gif.latex?x'={\bf R}\cdot x + {\bf t})
+
 consists of a 3x3 rotation matrix **R** and a translation **t** below a line. The translation vector is printed in direct coordinates.
