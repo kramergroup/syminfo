@@ -32,6 +32,31 @@ syminfo < my_structure.str
 ```
 will read the crystal structure defined in `my_structure.str` and output all symmetry operations.
 
+A number of command line parameters are available for other behaviour.
+
+```
+syminfo - Determine pointgroup, spacegroup, and reduced cell information
+           usage: syminfo [-p] [-r] [-v] [-h] [-2d] [-a spacegroup.dat] [-m spacegroup.dat] < structure
+           Options:
+              -h       Display help message
+              -v       Display version
+              -p       Output point-group
+              -r       Output coordinates of reduced basis
+              -a       Applies the spacegroup in file spacegroup.dat to the
+                       supplied structure
+              -m       Matrix of symmetry equivalent coordinates under
+                       the given spacegroup
+              -2d      2D mode; ignores symmetry in z-direction
+                                apart from mirror-plane in x-y
+              -cart    Use cartesian reference frame. Usually, space group
+                       operations operate on direct coordinates according to
+                       p' = P*p + t. With this switch, the space group is
+                       referencing the  cartesian frame. This is achieved via
+                       the transformations P->C*P*C^-1 and t->C*t.
+              -cartin  Use cartesian frame for input
+              -cartout Use cartesian frame for outout
+```
+
 ### Input format
 
 The expected format is similar to the POSCAR file format used by [VASP](http://www.vasp.at) (the Vienna Ab Initio Simulation Package). The example below describes Iron, a FCC crystal:
@@ -60,7 +85,7 @@ All space group operations are returned as default. The outout for an FCC struct
 starts like:
 
 ```
-48
+192
   0.000000000E+00   0.000000000E+00  -0.100000000E+01
   0.000000000E+00   0.000000000E+00  -0.100000000E+01
   0.000000000E+00  -0.100000000E+01   0.000000000E+00
