@@ -101,7 +101,7 @@ starts like:
 ...
 ```
 
-The first line prints the number of space group operations. Followed by a block of
+The first line prints the number of space group operations. There are 48x4=192 operations, because each of the 48 point group operations can be combined with a translation between atoms in the cubic unit cell (see [definition of space group 227](http://img.chem.ucl.ac.uk/sgp/large/227az1.htm)). The rest of the output consists of blocks of
 symmetry operations **W**. Each symmetry operation
 
 ![equation](http://latex.codecogs.com/gif.latex?x%60%3D%7B%5Cbf%20R%7D%5Ccdot%20x%20%2B%20%7B%5Cbf%20t%7D)
