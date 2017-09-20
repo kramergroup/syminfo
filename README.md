@@ -178,7 +178,7 @@ Coordinates and translations transform according to
 
 Rotation matrices of the symmetry operations transform according to
 
-![equation](http://latex.codecogs.com/gif.latex?%7B%5Cbf%20R%27%7D%20%3D%20%7B%5Cbf%20T%7D%5E-1%5Ccdot%7B%5Cbf%20R%7D%5Ccdot%7B%5Cbf%20T%7D)
+![equation](http://latex.codecogs.com/gif.latex?%7B%5Cbf%20R%27%7D%20%3D%20%7B%5Cbf%20T%7D%5E%7B-1%7D%5Ccdot%7B%5Cbf%20R%7D%5Ccdot%7B%5Cbf%20T%7D)
 
 *Note*: The number of space group operations in a primitive cell can be reduced, because the new lattice vectors might conicide with some of the translation operations in a non-primitive cell.
  
