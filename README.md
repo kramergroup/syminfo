@@ -110,4 +110,20 @@ consists of a 3x3 rotation matrix **R** and a translation **t** below a line. Th
 
 #### Symmetry matrix
 
-Using the `-m <spacegroup_operators.sym>` switch will find all symmetry equivalent atoms under the set of space group operations defined in the file `spacegroup_operators.sym` (see above for the format). The returned square matrix has the dimensions of the number of atoms and contains a `T` if two atoms are equivalent. Otherwise, a `F` designates symmetry distinct pairs.
+Using the `-m <spacegroup_operators.sym>` switch will find all symmetry equivalent atoms under the set of space group operations defined in the file `spacegroup_operators.sym` (see above for the format). The returned square matrix has the dimensions of the number of atom, which is printed in the first line, and contains a `T` if two atoms are equivalent. Otherwise, a `F` designates symmetry distinct pairs. Atom order is the same as in the input file.
+
+For example,
+
+```bash
+syminfo -m example/fcc.sym < example/fcc.str
+```
+
+will produce a 4x4 matrix, indicating that all atoms are symmetry equivalent.
+
+```
+  4
+ T T T T
+ T T T T
+ T T T T
+ T T T T
+```
