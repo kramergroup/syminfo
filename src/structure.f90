@@ -80,7 +80,20 @@ CONTAINS
 
   END SUBROUTINE READSTRUCTURE
   
-  
+  SUBROUTINE WRITELATTICE(out,cell)
+
+    ! Parameters
+    integer, intent(in) :: out                                              ! Fortran unit for output    
+    type(lattice), intent(in) :: cell                                       ! Lattice vectors
+
+    ! Counter
+    integer :: i,ii
+
+    DO i=1,3
+       WRITE(out,"(E18.7,E18.7,E18.7)") (cell%e(i)%data(ii),ii=1, 3)
+    END DO
+
+  END SUBROUTINE WRITELATTICE  
 
   SUBROUTINE WRITESTRUCTURE(out,cell,coords,cartframe)
     
@@ -95,9 +108,7 @@ CONTAINS
     character(len=8) :: i_char
     type(vector) :: tau
 
-    DO i=1,3
-       WRITE(out,"(E18.7,E18.7,E18.7)") (cell%e(i)%data(ii),ii=1, 3) 
-    END DO
+    CALL WRITELATTICE(out,cell)
     WRITE(i_char, '(I8)') size(coords)
     WRITE(out,*) adjustl(i_char) 
 

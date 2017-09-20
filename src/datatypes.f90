@@ -37,7 +37,7 @@ MODULE DATATYPES
   END INTERFACE OPERATOR(-)
   
   INTERFACE OPERATOR(*)
-     module procedure vdot, pdot, sdot, udot,vidot, lpdot, pldot, ppdot
+     module procedure vdot, pdot, sdot, udot,vidot, lpdot, pldot, ppdot, lldot
   END INTERFACE OPERATOR(*)
 
   INTERFACE OPERATOR(.DOT.)
@@ -183,15 +183,29 @@ CONTAINS
           pgout%data(i,j) = 0.00
           DO k=1,3
              pgout%data(i,j) = pgout%data(i,j) + pg1%data(i,k)*pg2%data(k,j)
-          END DO
-          
+          END DO          
        END DO
     END DO
 
   END FUNCTION ppdot
 
+  
+  FUNCTION lldot(cell1,cell2) result (cellout)
+    type(lattice), intent(in)        :: cell1,cell2
+    type(lattice)                    :: cellout
+        
+    integer i,j,k
+    DO i=1,3
+       DO j=1,3
+          cellout%e(i)%data(j) = 0.00
+          DO k=1,3
+             cellout%e(i)%data(j) = cellout%e(i)%data(j) + cell1%e(i)%data(k) * cell2%e(k)%data(j)
+          END DO
+       END DO
+    END DO
 
-
+  END FUNCTION lldot
+  
   
   FUNCTION vnorm(v1) result (norm)
     type(vector), intent(in) :: v1

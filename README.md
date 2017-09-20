@@ -41,7 +41,8 @@ syminfo - Determine pointgroup, spacegroup, and reduced cell information
            Options:
               -h       Display help message
               -v       Display version
-              -p       Output point-group
+              -pg      Output point-group
+              -p       Output transformation matrix to primitive cell
               -r       Output coordinates of reduced basis
               -a       Applies the spacegroup in file spacegroup.dat to the
                        supplied structure
@@ -163,4 +164,22 @@ will produce
 
 #### Apply space group operations (-a)
 
-This is the *inverse* of the `-r` switch and finds all atomic positions within the unit cell from a list of symmetry inequivalent positions.
+This is the *inverse* of the `-r` switch and finds all atomic positions within the unit cell from a list of symmetry inequivalent positions.i
+
+#### Transformation matrix to primitive cell (-p)
+
+The `-p` switch finds a suitable primitive cell and returns the transformation matrix **T** such that the lattice vectors (written as a 3x3 matrix **L**) transform according to 
+
+![equation](http://latex.codecogs.com/gif.latex?%7B%5Cbf%20L%27%7D%20%3D%20%7B%5Cbf%20T%7D%5Ccdot%7B%5Cbf%20L%7D)
+
+Coordinates and translations transform according to
+
+![equation](http://latex.codecogs.com/gif.latex?%7B%5Cbf%20x%27%7D%20%3D%20%7B%5Cbf%20T%7D%5E%7B-1%7D%5Ccdot%7B%5Cbf%20x%7D)
+
+Rotation matrices of the symmetry operations transform according to
+
+![equation](http://latex.codecogs.com/gif.latex?%7B%5Cbf%20R%27%7D%20%3D%20%7B%5Cbf%20T%7D%5E-1%5Ccdot%7B%5Cbf%20R%7D%5Ccdot%7B%5Cbf%20T%7D)
+
+*Note*: The number of space group operations in a primitive cell can be reduced, because the new lattice vectors might conicide with some of the translation operations in a non-primitive cell.
+ 
+

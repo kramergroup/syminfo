@@ -9,7 +9,7 @@ PROGRAM SYMINFO
   character(LEN=*), parameter :: VERSION = "1.0.0"
 
   ! Mode
-  integer, parameter :: MODE_SG = 1 , MODE_PG = 2 , MODE_RED = 3, MODE_APPLY = 4, MODE_SYMMTX = 5
+  integer, parameter :: MODE_SG = 1 , MODE_PG = 2 , MODE_RED = 3, MODE_APPLY = 4, MODE_SYMMTX = 5, MODE_PRIM = 6
   integer :: mode = MODE_SG
 
   ! 2D Mode (ignores z-direction apart from mirror plane in x-y)
@@ -27,7 +27,7 @@ PROGRAM SYMINFO
   logical :: cartframeout = .false.
 
   ! Data
-  type(lattice) :: cell
+  type(lattice) :: cell,prim
   type(coordinate), dimension(:), allocatable :: coords, redcoords
   type(pointgroup), dimension(:), allocatable :: pg
   type(spacegroup), dimension(:), allocatable :: sg
@@ -79,6 +79,10 @@ PROGRAM SYMINFO
   ELSE IF ( mode == MODE_SYMMTX ) THEN
      CALL SYMMETRY_MATRIX(cell, coords, sg, symmtx)
      CALL WRITE_SYMMETRYMATRIX(IO_OUT,symmtx)
+  ELSE IF ( mode == MODE_PRIM ) THEN
+     prim = PRIMITIVE_CELL(cell,coords)
+     prim = prim * ( .INVERSE. cell )
+     CALL WRITELATTICE(IO_OUT,prim)
   END IF
 
 CONTAINS
@@ -126,6 +130,8 @@ CONTAINS
          ELSE IF (arg == "-2d") THEN
             planar = .true.
          ELSE IF (arg == "-p") THEN
+            mode = MODE_PRIM
+         ELSE IF (arg == "-pg") THEN
             mode = MODE_PG
          ELSE IF (arg == "-r") THEN
             mode = MODE_RED
@@ -180,7 +186,8 @@ CONTAINS
     WRITE(IO_OUT,*) "          Options: "
     WRITE(IO_OUT,*) "             -h       Display help message"
     WRITE(IO_OUT,*) "             -v       Display version"
-    WRITE(IO_OUT,*) "             -p       Output point-group"
+    WRITE(IO_OUT,*) "             -pg      Output point-group"
+    WRITE(IO_OUT,*) "             -p       Output transformation matrix to primitive cell"
     WRITE(IO_OUT,*) "             -r       Output coordinates of reduced basis"
     WRITE(IO_OUT,*) "             -a       Applies the spacegroup in file spacegroup.dat to the"
     WRITE(IO_OUT,*) "                      supplied structure"

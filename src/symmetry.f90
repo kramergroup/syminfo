@@ -216,11 +216,11 @@ CONTAINS
 
 
   ! Find a primitive cell 
-  type(lattice) FUNCTION PRIMITIVE_CELL(cell,coords,minority) result (red)
+  type(lattice) FUNCTION PRIMITIVE_CELL(cell,coords) result (red)
     type(lattice), intent(in) :: cell                      ! Lattice vectors 
     type(coordinate), intent(in), dimension(:) :: coords   ! Atomic positions in direct coordinates
-    type(coordinate), allocatable, dimension(:),optional, intent(inout) :: minority
-
+    
+    type(coordinate), allocatable, dimension(:) :: minority
     type(vector), allocatable, dimension(:) :: translations
 
     logical :: assigned, occ
@@ -233,9 +233,7 @@ CONTAINS
     red = cell
     invcell = .INVERSE. cell
     
-    IF ( .NOT. present(minority) ) THEN
-       CALL FIND_MINORITY_COORDINATES(coords, minority)
-    END IF
+    CALL FIND_MINORITY_COORDINATES(coords, minority)
 
     ! Build vector of possible translations
     ALLOCATE( translations(size(minority)) )
