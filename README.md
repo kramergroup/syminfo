@@ -108,7 +108,7 @@ symmetry operations **W**. Each symmetry operation
 
 consists of a 3x3 rotation matrix **R** and a translation **t** below a line. The translation vector is printed in direct coordinates. An empty line separates operations.
 
-#### Symmetry matrix
+#### Symmetry matrix (-m)
 
 Using the `-m <spacegroup_operators.sym>` switch will find all symmetry equivalent atoms under the set of space group operations defined in the file `spacegroup_operators.sym` (see above for the format). The returned square matrix has the dimensions of the number of atom, which is printed in the first line, and contains a `T` if two atoms are equivalent. Otherwise, a `F` designates symmetry distinct pairs. Atom order is the same as in the input file.
 
@@ -127,3 +127,39 @@ will produce a 4x4 matrix, indicating that all atoms are symmetry equivalent.
  T T T T
  T T T T
 ```
+
+#### Reduced basis (-r)
+
+The `-r` command-line argument produces a structure file (using the input format) that contains only symmetry inequivalent coordinates followed by all symmetry operations (see output format above).
+
+```bash
+syminfo -r < example/fcc.str
+```
+
+will produce
+
+```
+0.3000000E+01     0.0000000E+00     0.0000000E+00
+0.0000000E+00     0.3000000E+01     0.0000000E+00
+0.0000000E+00     0.0000000E+00     0.3000000E+01
+1
+0.0000000E+00   0.0000000E+00   0.0000000E+00  Fe    0.00
+192
+0.000000000E+00   0.000000000E+00  -0.100000000E+01
+0.000000000E+00  -0.100000000E+01   0.000000000E+00
+-0.100000000E+01   0.000000000E+00   0.000000000E+00
+--------------------------------------------------------
+0.000000000E+00   0.000000000E+00   0.000000000E+00
+
+0.000000000E+00   0.000000000E+00  -0.100000000E+01
+0.000000000E+00  -0.100000000E+01   0.000000000E+00
+-0.100000000E+01   0.000000000E+00   0.000000000E+00
+--------------------------------------------------------
+0.000000000E+00   0.500000000E+00   0.500000000E+00
+
+...
+```
+
+#### Apply space group operations (-a)
+
+This is the *inverse* of the `-r` switch and finds all atomic positions within the unit cell from a list of symmetry inequivalent positions.
