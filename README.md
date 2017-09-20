@@ -5,6 +5,7 @@ Utility for symmetry information of crystal structures
 
 - Find all space group operations
 - Find symmetry equivalent atoms in the unit cell
+- Find reduced basis
 
 *Warning*: This code is largely untested. Determination of symmetry operations is believed to be reliable. Other functionality should be thoroughly tested!
 
