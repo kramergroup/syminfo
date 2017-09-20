@@ -77,8 +77,12 @@ starts like:
 ```
 
 The first line prints the number of space group operations. Followed by a block of
-symmetry operations **W**. Each symetry operation
+symmetry operations **W**. Each symmetry operation
 
 ![equation](http://latex.codecogs.com/gif.latex?x%60%3D%7B%5Cbf%20R%7D%5Ccdot%20x%20%2B%20%7B%5Cbf%20t%7D)
 
-consists of a 3x3 rotation matrix **R** and a translation **t** below a line. The translation vector is printed in direct coordinates.
+consists of a 3x3 rotation matrix **R** and a translation **t** below a line. The translation vector is printed in direct coordinates. An empty line separates operations.
+
+#### Symmetry matrix
+
+Using the `-m <spacegroup_operators.sym>` switch will find all symmetry equivalent atoms under the set of space group operations defined in the file `spacegroup_operators.sym` (see above for the format). The returned square matrix has the dimensions of the number of atoms and contains a `T` if two atoms are equivalent. Otherwise, a `F` designates symmetry distinct pairs.
