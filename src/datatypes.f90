@@ -242,9 +242,12 @@ CONTAINS
 
     double precision :: det, tr
 
-    det = sg%pointgroup%data(1,1)*(sg%pointgroup%data(3,3)*sg%pointgroup%data(2,2)-sg%pointgroup%data(3,2)*sg%pointgroup%data(2,3)) &
-        - sg%pointgroup%data(2,1)*(sg%pointgroup%data(3,3)*sg%pointgroup%data(1,2)-sg%pointgroup%data(3,2)*sg%pointgroup%data(1,3)) &
-        + sg%pointgroup%data(3,1)*(sg%pointgroup%data(2,3)*sg%pointgroup%data(1,2)-sg%pointgroup%data(2,2)*sg%pointgroup%data(1,3));
+    det = sg%pointgroup%data(1,1)*(sg%pointgroup%data(3,3)*sg%pointgroup%data(2,2) &
+          -sg%pointgroup%data(3,2)*sg%pointgroup%data(2,3));
+    det = det-sg%pointgroup%data(2,1)*(sg%pointgroup%data(3,3)*sg%pointgroup%data(1,2) &
+          -sg%pointgroup%data(3,2)*sg%pointgroup%data(1,3));
+    det = det+sg%pointgroup%data(3,1)*(sg%pointgroup%data(2,3)*sg%pointgroup%data(1,2) &
+          -sg%pointgroup%data(2,2)*sg%pointgroup%data(1,3));
     
     tr = sg%pointgroup%data(1,1) + sg%pointgroup%data(2,2) + sg%pointgroup%data(3,3);
 

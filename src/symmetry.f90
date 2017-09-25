@@ -663,7 +663,7 @@ CONTAINS
     
     IF ( present(cell) ) invcell = .INVERSE. cell
 
-    READ(in, "(I)") nops
+    READ(in, "(I4)") nops
     
     IF ( nops < 1 ) RETURN
 

@@ -1,9 +1,10 @@
 F90_FILES := $(wildcard src/*.f90)
 OBJ_FILES := $(addprefix obj/,$(notdir $(F90_FILES:.f90=.o)))
 
-F90=ifort
+F90=gfortran
 
-FFLAGS=-g -CB -traceback
+#FFLAGS=-g -CB -traceback
+FFLAGS=-g -ffree-form
 
 main: $(OBJ_FILES)
 	$(F90) $(FFLAGS) -o syminfo $(OBJ_FILES)
