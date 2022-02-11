@@ -9,11 +9,14 @@ PROGRAM SYMINFO
   character(LEN=*), parameter :: VERSION = "1.0.0"
 
   ! Mode
-  integer, parameter :: MODE_SG = 1 , MODE_PG = 2 , MODE_RED = 3, MODE_APPLY = 4, MODE_SYMMTX = 5, MODE_PRIM = 6
+  integer, parameter :: MODE_SG = 1 , MODE_PG = 2 , MODE_RED = 3, MODE_APPLY = 4, MODE_SYMMTX = 5, MODE_PRIM = 6, MODE_NEIGH = 7
   integer :: mode = MODE_SG
 
   ! 2D Mode (ignores z-direction apart from mirror plane in x-y)
   logical :: planar = .false.
+
+  ! Maximum neighbor distance for connectivity analysis
+  double precision :: max_neighbor_distance = 2.3
 
   ! Output mode (Direct or cartesian)
   ! Internally, the transformation operations are stored as relative to the direct coordinate frame
@@ -33,7 +36,8 @@ PROGRAM SYMINFO
   type(spacegroup), dimension(:), allocatable :: sg
   logical, dimension(:,:), allocatable :: symmtx
   integer :: nion
-  character(len=100) :: sgfile     ! Used for externally defined space groups (MODE_APPLY and MODE_SYMMTX)
+  character(len=100) :: sgfile      ! Used for externally defined space groups (MODE_APPLY and MODE_SYMMTX)
+  character(len=20) :: dummy        ! A character buffer used for reading commandline parameters
 
   ! Counter and dummies
   integer :: i,j,k
@@ -141,8 +145,19 @@ CONTAINS
          ELSE IF (arg == "-m") THEN
             mode = MODE_SYMMTX
             CALL GETARG(i+1,sgfile)
+         ELSE IF (arg == "-n") THEN
+            mode = MODE_NEIGH
+            CALL GETARG(i+1,dummy)
+            READ(dummy , *, err=110) max_neighbor_distance
          END IF
       END DO
+
+      RETURN
+
+      ! Handle argument format errors
+110   CONTINUE  
+      WRITE(IO_ERR,*) "Distance argument to -n has to be a number"
+      ERROR STOP 1
 
   END SUBROUTINE PROCESS_ARGUMENTS
   
@@ -182,7 +197,7 @@ CONTAINS
   SUBROUTINE DISPLAY_HELPMESSAGE()
 
     WRITE(IO_OUT,*) "syminfo - Determine pointgroup, spacegroup, and reduced cell information"
-    WRITE(IO_OUT,*) "          usage: syminfo [-p] [-r] [-v] [-h] [-2d] [-a spacegroup.dat] [-m spacegroup.dat] < structure"
+    WRITE(IO_OUT,*) "          usage: syminfo [-p] [-r] [-v] [-h] [-2d] [-n dist] [-a spacegrp.dat] [-m spacegrp.dat] < structure"
     WRITE(IO_OUT,*) "          Options: "
     WRITE(IO_OUT,*) "             -h       Display help message"
     WRITE(IO_OUT,*) "             -v       Display version"
@@ -195,6 +210,7 @@ CONTAINS
     WRITE(IO_OUT,*) "                      the given spacegroup"
     WRITE(IO_OUT,*) "             -2d      2D mode; ignores symmetry in z-direction"
     WRITE(IO_OUT,*) "                               apart from mirror-plane in x-y"
+    WRITE(IO_OUT,*) "             -n       Perform neighborhood analysis including sites max. distance away"
     WRITE(IO_OUT,*) "             -cart    Use cartesian reference frame. Usually, space group"
     WRITE(IO_OUT,*) "                      operations operate on direct coordinates according to"
     WRITE(IO_OUT,*) "                      p' = P*p + t. With this switch, the space group is"
